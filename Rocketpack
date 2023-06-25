@@ -1,0 +1,46 @@
+def display_map(map, player_position):
+    for i in range(len(map)):
+        for j in range(len(map[i])):
+            if (i, j) == player_position:
+                print("P", end=" ")  # Player's position
+            elif map[i][j] == 1:
+                print("#", end=" ")  # Obstacle
+            else:
+                print(".", end=" ")  # Empty space
+        print()
+
+def move_player(map, player_position, direction):
+    x, y = player_position
+    if direction == "up" and x > 0 and map[x-1][y] != 1:
+        x -= 1
+    elif direction == "down" and x < len(map) - 1 and map[x+1][y] != 1:
+        x += 1
+    elif direction == "left" and y > 0 and map[x][y-1] != 1:
+        y -= 1
+    elif direction == "right" and y < len(map[0]) - 1 and map[x][y+1] != 1:
+        y += 1
+    return x, y
+
+if __name__ == "__main__":
+    map = [
+        [0, 0, 1, 0, 0],
+        [0, 1, 0, 0, 0],
+        [0, 0, 0, 1, 0],
+        [1, 0, 0, 0, 0],
+        [0, 0, 1, 0, 0]
+    ]
+    player_position = (0, 0)
+
+    print("Welcome to Rocketpack!")
+    print("Help the little man reach the other edge of the map using the rocketpack.")
+    print("Avoid obstacles represented by '#' symbols.")
+
+    while True:
+        display_map(map, player_position)
+
+        direction = input("Enter direction (up/down/left/right): ")
+        player_position = move_player(map, player_position, direction)
+
+        if player_position[0] == len(map) - 1:
+            print("Congratulations! You reached the other edge of the map!")
+            break
